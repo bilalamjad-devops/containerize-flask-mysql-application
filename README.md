@@ -1,6 +1,8 @@
 
 # Containerize a Flask + MySQL Application
 
+> Developers cannot run the application consistently on different machines.
+
 ## Objective
 
 In this project, we containerize a simple two-tier Flask + MySQL application.
