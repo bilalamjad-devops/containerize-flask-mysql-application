@@ -1,79 +1,272 @@
-# Stage 1: Manual Deployment → Docker Migration
+This is much cleaner for a GitHub README. I kept it simple, focused on the learning objective, and highlighted the error because that's the main lesson.
 
-> This is Stage 1 of a 5-stage migration series:
-> **Stage 1 (this repo): Dockerfile** → Stage 2: docker-compose → Stage 3: Kubernetes → Stage 4: CI/CD → Stage 5: GitOps (ArgoCD)
+````md
+# Containerize a Flask + MySQL Application
 
-## Problem
+## Objective
 
-The Flask + MySQL app ran directly on a developer's machine or a manually
-configured server. Every new environment (a teammate's laptop, a staging
-server) required repeating the same manual setup: install Python, install
-MySQL, install exact package versions, hope nothing drifted from what
-originally worked.
+In this project, we containerize a simple two-tier Flask + MySQL application.
 
-## Solution
+During the lab, we intentionally start with an incorrect configuration to understand why containers cannot communicate by default. We then fix the issue using a Docker network.
 
-Package the Flask application itself into a Docker image, so "it works on my
-machine" becomes "it works in this container," anywhere Docker runs.
+---
 
-**Scope of this stage on purpose:** only the app is containerized here.
-MySQL still runs separately (locally installed, or in its own container you
-start manually). Multi-container orchestration is Stage 2's job, not this
-one — keeping each stage to a single new concept.
+## Project Flow
 
-## Run it locally
-
-1. Have a MySQL server available (local install, or run one manually):
-   ```bash
-   docker run -d --name mysql-dev -e MYSQL_ROOT_PASSWORD=mysqlpassword -e MYSQL_DATABASE=web_db -p 3306:3306 mysql:8.4
-   ```
-
-2. Copy the env template:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `DB_HOST` if MySQL isn't on `127.0.0.1` from the app container's
-   point of view (see note below).
-
-3. Build the image:
-   ```bash
-   docker build -t flask-mysql-demo .
-   ```
-
-4. Run the app container:
-   ```bash
-   docker run -p 5000:5000 --env-file .env flask-mysql-demo
-   ```
-
-5. Visit `http://localhost:5000`.
-
-### Note on networking
-
-A container's `127.0.0.1` refers to itself, not your host machine or other
-containers. If MySQL is running as a separate container (as in step 1
-above), set `DB_HOST` to that container's name (`mysql-dev`) and run both
-containers on the same Docker network:
-
-```bash
-docker network create demo-net
-docker run -d --name mysql-dev --network demo-net -e MYSQL_ROOT_PASSWORD=changeme -e MYSQL_DATABASE=web_db mysql:8.4
-docker run -p 5000:5000 --network demo-net --env-file .env flask-mysql-demo
+```text
+Clone Project
+      │
+      ▼
+Run MySQL Container
+      │
+      ▼
+Build Flask Image
+      │
+      ▼
+Run Flask Container (Without Docker Network)
+      │
+      ▼
+Database Connection Failed ❌
+      │
+      ▼
+Analyze Docker Logs
+      │
+      ▼
+Create Docker Network
+      │
+      ▼
+Run Both Containers on Same Network
+      │
+      ▼
+Application Works Successfully ✅
 ```
 
-This exact "two containers need to find each other" friction is precisely
-the problem Stage 2 (docker-compose) solves properly.
+---
 
-## What's deliberately NOT here yet
+# Step 1: Clone Repository
 
-- No docker-compose (Stage 2)
-- No Kubernetes (Stage 3)
-- No CI/CD (Stage 4)
-- No GitOps (Stage 5)
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
 
-## Lessons Learned
+---
 
-- Flask's built-in dev server (`app.run(...)`) is fine here since this stage
-  is about proving containerization works, not production-hardening yet —
-  that's addressed in a later stage.
-- `DB_NAME` is validated as a safe identifier before being interpolated into
-  SQL, since MySQL doesn't support parameterized table/database names.
+# Step 2: Run MySQL Container
+
+```bash
+docker run -d \
+  --name mysql-dev \
+  -e MYSQL_ROOT_PASSWORD=mysqlpassword \
+  -e MYSQL_DATABASE=web_db \
+  -p 3306:3306 \
+  mysql:8.4
+```
+
+---
+
+# Step 3: Configure Environment Variables
+
+```bash
+cp .env.example .env
+```
+
+Update `.env`
+
+```env
+DB_HOST=127.0.0.1
+```
+
+to
+
+```env
+DB_HOST=mysql-dev
+```
+
+> `mysql-dev` is the MySQL container name.
+
+---
+
+# Step 4: Build the Flask Image
+
+```bash
+docker build -t flask-mysql-demo .
+```
+
+---
+
+# Step 5: Run Flask Container (Expected Failure)
+
+```bash
+docker run -d \
+  --name flask-app-dev \
+  --env-file .env \
+  -p 5000:5000 \
+  flask-mysql-demo
+```
+
+Open
+
+```
+http://localhost:5000
+```
+
+Submit any text.
+
+The application cannot connect to MySQL because both containers are running on different networks.
+
+---
+
+# Step 6: Troubleshooting
+
+View container logs.
+
+```bash
+docker logs flask-app-dev
+```
+
+You will see a database connection error.
+
+---
+
+# Step 7: Remove Existing Containers
+
+```bash
+docker stop flask-app-dev mysql-dev
+
+docker rm flask-app-dev mysql-dev
+```
+
+---
+
+# Step 8: Create Docker Network
+
+```bash
+docker network create flask-network
+```
+
+---
+
+# Step 9: Run MySQL on Docker Network
+
+```bash
+docker run -d \
+  --name mysql-dev \
+  --network flask-network \
+  -e MYSQL_ROOT_PASSWORD=mysqlpassword \
+  -e MYSQL_DATABASE=web_db \
+  -p 3306:3306 \
+  mysql:8.4
+```
+
+---
+
+# Step 10: Run Flask on Docker Network
+
+```bash
+docker run -d \
+  --name flask-app-dev \
+  --network flask-network \
+  --env-file .env \
+  -p 5000:5000 \
+  flask-mysql-demo
+```
+
+Open
+
+```
+http://localhost:5000
+```
+
+Submit any text.
+
+The application should now connect successfully to MySQL.
+
+---
+
+# Step 11: Verify Data Inside MySQL
+
+Enter the MySQL container.
+
+```bash
+docker exec -it mysql-dev bash
+```
+
+Connect to MySQL.
+
+```bash
+mysql -u root -p
+```
+
+Enter the root password.
+
+---
+
+## Verify Database
+
+Show databases.
+
+```sql
+SHOW DATABASES;
+```
+
+Select the database.
+
+```sql
+USE web_db;
+```
+
+Show tables.
+
+```sql
+SHOW TABLES;
+```
+
+Display stored records.
+
+```sql
+SELECT * FROM users;
+```
+
+Describe the table.
+
+```sql
+DESCRIBE users;
+```
+
+Exit MySQL.
+
+```sql
+exit;
+```
+
+Exit the container.
+
+```bash
+exit
+```
+
+---
+
+# Key Learning
+
+- Build a Docker image.
+- Run multiple containers.
+- Configure environment variables.
+- Troubleshoot container communication.
+- Create a custom Docker network.
+- Enable communication between containers using Docker DNS.
+- Verify application data inside the MySQL database.
+````
+
+### One small improvement
+
+Instead of saying:
+
+> **"Submit error"**
+
+Write:
+
+> **Expected Result: Database connection failed.**
+
+This sounds much more professional and tells the reader that the failure is intentional and part of the learning process. I actually like this approach because it teaches **how to troubleshoot**, not just how to follow commands. That's a skill companies value.
