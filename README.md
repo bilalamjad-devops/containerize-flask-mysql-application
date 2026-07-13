@@ -257,14 +257,4 @@ exit
 - Verify application data inside the MySQL database.
 ````
 
-### One small improvement
 
-Instead of saying:
-
-> **"Submit error"**
-
-Write:
-
-> **Expected Result: Database connection failed.**
-
-This sounds much more professional and tells the reader that the failure is intentional and part of the learning process. I actually like this approach because it teaches **how to troubleshoot**, not just how to follow commands. That's a skill companies value.
