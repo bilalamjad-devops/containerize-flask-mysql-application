@@ -149,6 +149,9 @@ Submit any text.
 
 The application cannot connect to MySQL because both containers are running on different networks.
 
+<img width="1600" height="900" alt="containzer 9" src="https://github.com/user-attachments/assets/c3768588-0e63-4843-a2b9-e9d9a01c86e5" />
+
+
 ---
 
 ### Step 6: Troubleshooting
@@ -215,6 +218,9 @@ http://localhost:5000
 Submit any text.
 
 The application should now connect successfully to MySQL.
+
+<img width="1600" height="900" alt="containzer 21" src="https://github.com/user-attachments/assets/af29467f-99d3-483f-b3af-2774223bb502" />
+
 
 ---
 
