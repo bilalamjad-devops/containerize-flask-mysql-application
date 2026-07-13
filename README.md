@@ -25,7 +25,7 @@ one — keeping each stage to a single new concept.
 
 1. Have a MySQL server available (local install, or run one manually):
    ```bash
-   docker run -d --name mysql-dev -e MYSQL_ROOT_PASSWORD=changeme -e MYSQL_DATABASE=web_db -p 3306:3306 mysql:8.4
+   docker run -d --name mysql-dev -e MYSQL_ROOT_PASSWORD=mysqlpassword -e MYSQL_DATABASE=web_db -p 3306:3306 mysql:8.4
    ```
 
 2. Copy the env template:
