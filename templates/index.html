@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask + MySQL Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        h2 { margin-top: 0; }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .alert { margin-top: 15px; padding: 10px; border-radius: 6px; font-size: 14px; }
+        .alert-success { background: #ecfdf5; color: #065f46; }
+        .alert-error { background: #fef2f2; color: #991b1b; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Flask + MySQL (Dockerized)</h2>
+    <form action="/submit" method="POST">
+        <input type="text" name="user_data" placeholder="Write a test record..." required>
+        <button type="submit">Submit</button>
+    </form>
+    {% if message %}
+        {% if "Saved" in message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% else %}
+            <div class="alert alert-error">{{ message }}</div>
+        {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>
