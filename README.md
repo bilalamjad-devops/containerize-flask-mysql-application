@@ -1,7 +1,14 @@
 
 # Containerize a Flask + MySQL Application
 
+
+Business Problem
+
 > Developers cannot run the application consistently on different machines.
+
+Solution
+
+Docker
 
 ## Objective
 
