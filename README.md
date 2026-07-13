@@ -41,7 +41,7 @@ Application Works Successfully ✅
 
 ---
 
-# Step 1: Clone Repository
+### Step 1: Clone Repository
 
 ```bash
 git clone <repository-url>
@@ -50,7 +50,7 @@ cd <repository-name>
 
 ---
 
-# Step 2: Run MySQL Container
+### Step 2: Run MySQL Container
 
 ```bash
 docker run -d \
@@ -63,7 +63,7 @@ docker run -d \
 
 ---
 
-# Step 3: Configure Environment Variables
+### Step 3: Configure Environment Variables
 
 ```bash
 cp .env.example .env
@@ -85,7 +85,7 @@ DB_HOST=mysql-dev
 
 ---
 
-# Step 4: Build the Flask Image
+### Step 4: Build the Flask Image
 
 ```bash
 docker build -t flask-mysql-demo .
@@ -93,7 +93,7 @@ docker build -t flask-mysql-demo .
 
 ---
 
-# Step 5: Run Flask Container (Expected Failure)
+### Step 5: Run Flask Container (Expected Failure)
 
 ```bash
 docker run -d \
@@ -115,7 +115,7 @@ The application cannot connect to MySQL because both containers are running on d
 
 ---
 
-# Step 6: Troubleshooting
+### Step 6: Troubleshooting
 
 View container logs.
 
@@ -127,7 +127,7 @@ You will see a database connection error.
 
 ---
 
-# Step 7: Remove Existing Containers
+### Step 7: Remove Existing Containers
 
 ```bash
 docker stop flask-app-dev mysql-dev
@@ -137,7 +137,7 @@ docker rm flask-app-dev mysql-dev
 
 ---
 
-# Step 8: Create Docker Network
+### Step 8: Create Docker Network
 
 ```bash
 docker network create flask-network
@@ -145,7 +145,7 @@ docker network create flask-network
 
 ---
 
-# Step 9: Run MySQL on Docker Network
+### Step 9: Run MySQL on Docker Network
 
 ```bash
 docker run -d \
@@ -159,7 +159,7 @@ docker run -d \
 
 ---
 
-# Step 10: Run Flask on Docker Network
+### Step 10: Run Flask on Docker Network
 
 ```bash
 docker run -d \
@@ -182,7 +182,7 @@ The application should now connect successfully to MySQL.
 
 ---
 
-# Step 11: Verify Data Inside MySQL
+### Step 11: Verify Data Inside MySQL
 
 Enter the MySQL container.
 
@@ -200,7 +200,7 @@ Enter the root password.
 
 ---
 
-## Verify Database
+### Verify Database
 
 Show databases.
 
@@ -246,7 +246,7 @@ exit
 
 ---
 
-# Key Learning
+## Key Learning
 
 - Build a Docker image.
 - Run multiple containers.
@@ -256,5 +256,4 @@ exit
 - Enable communication between containers using Docker DNS.
 - Verify application data inside the MySQL database.
 ````
-
 
