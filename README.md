@@ -4,11 +4,11 @@
 
 Business Problem
 
-> Developers cannot run the application consistently on different machines.
+> The application runs differently on each developer's machine.
 
 Solution
 
-Docker
+Containerize the application using Docker.
 
 ## Objective
 
