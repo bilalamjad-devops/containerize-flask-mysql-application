@@ -44,28 +44,27 @@ Application Works Successfully ✅
 
 ## Steps
 
-**Step 1: Clone Repository**
+Step 1: Clone Repository
 
-**Step 2: Run MySQL Container**
+Step 2: Run MySQL Container
 
-**Step 3: Configure Environment Variables**
+Step 3: Configure Environment Variables
 
-**Step 4: Build the Flask Image**
+Step 4: Build the Flask Image
 
-**Step 5: Run Flask Container (Expected Failure)**
+Step 5: Run Flask Container (Expected Failure)
 
-**Step 6: Troubleshooting**
+Step 6: Troubleshooting
 
-**Step 7: Remove Existing Containers**
+Step 7: Remove Existing Containers
 
-**Step 8: Create Docker Network**
+Step 8: Create Docker Network
 
-**Step 9: Run MySQL on Docker Network**
+Step 9: Run MySQL on Docker Network
 
-**Step 10: Run Flask on Docker Network**
+Step 10: Run Flask on Docker Network
 
-**Step 11: Verify Data Inside MySQL**
-
+Step 11: Verify Data Inside MySQL
 
 
 
