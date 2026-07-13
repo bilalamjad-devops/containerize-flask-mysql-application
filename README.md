@@ -7,6 +7,8 @@ In this project, we containerize a simple two-tier Flask + MySQL application.
 
 During the lab, we intentionally start with an incorrect configuration to understand why containers cannot communicate by default. We then fix the issue using a Docker network.
 
+I am using Docker Desktop and Git Bash.
+
 ---
 
 ## Project Flow
