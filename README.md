@@ -255,5 +255,6 @@ exit
 - Create a custom Docker network.
 - Enable communication between containers using Docker DNS.
 - Verify application data inside the MySQL database.
-````
+
+
 
