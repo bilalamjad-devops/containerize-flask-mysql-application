@@ -1,6 +1,4 @@
-This is much cleaner for a GitHub README. I kept it simple, focused on the learning objective, and highlighted the error because that's the main lesson.
 
-````md
 # Containerize a Flask + MySQL Application
 
 ## Objective
